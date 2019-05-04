@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
 
 import LoginForm from './LoginForm';
 
@@ -14,11 +15,12 @@ const styles = {
 
 class Header extends React.Component {
   state = {
-    openLoginForm: false
+    openLoginForm: false,
+    isUserLogged: localStorage.getItem("token")
   }
 
-  loginUser = () => {
-
+  logoutUser = () => {
+    localStorage.removeItem("token")
   }
 
   render(){
@@ -27,7 +29,14 @@ class Header extends React.Component {
       <div>
         <AppBar position="static">
           <Toolbar className={classes.toolBar}>
-            <LoginForm />
+            {this.state.isUserLogged ? (
+                <Button color="primary" onClick={this.logoutUser}>
+                  Logout
+                </Button>
+              ):(
+                <LoginForm />
+              )
+            }
           </Toolbar>
         </AppBar>
       </div>
